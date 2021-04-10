@@ -14,3 +14,7 @@ Our idea is to develop a real-time distraction detection tool that monitors the 
 -  shape_predictor_68_face_landmarks.dat is the dataset used for the 68 face landmark detection
 	
  Run the application : `python main.py`
+
+![](images/Login.png)
+
+<!-- <img src="https://github.com/mswetha1708/Rakathon_zeronegirls/blob/main/images/Login.png" width="700" height="500"> -->
