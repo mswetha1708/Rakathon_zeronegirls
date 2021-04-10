@@ -18,3 +18,5 @@ Our idea is to develop a real-time distraction detection tool that monitors the 
 ![](images/Login.png)
 
 <!-- <img src="https://github.com/mswetha1708/Rakathon_zeronegirls/blob/main/images/Login.png" width="700" height="500"> -->
+
+### [Link to PPT](https://www.canva.com/design/DAEbLWTPPG8/zU_Fsh4FPtuXYB6E3Arwqw/view?utm_content=DAEbLWTPPG8&utm_campaign=designshare&utm_medium=link&utm_source=sharebutton )
