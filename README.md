@@ -1,4 +1,4 @@
-# Theme : Education
+# Rakathon Theme : Education
 ### Problem Statement
 - Students learning online are exposed to more distractions than face-face classes.
  - Managing technological distractions can be challenging when students need to use their phone or computer to study/attend lectures and complete the coursework. 
