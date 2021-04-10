@@ -12,3 +12,5 @@ Our idea is to develop a real-time distraction detection tool that monitors the 
 -  The file ***camera. py***  takes the live video from webcam as input, frame-by-frame and computes yawn count, sleep count by comparing the eye aspect ratio and lip distance with a threshold. This file uses Facial Landmark detection using dlib facial landmark detection
 - The file ***main. py*** contains the code for establishing a database connection using Flask
 -  shape_predictor_68_face_landmarks.dat is the dataset used for the 68 face landmark detection
+	
+ Run the application : `python main.py`
