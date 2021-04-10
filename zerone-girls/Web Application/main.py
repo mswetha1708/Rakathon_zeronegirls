@@ -7,6 +7,7 @@ import os
 from pymysql import connect
 # import smtplib
 from flask_mail import Mail, Message
+import math
 app = Flask(__name__) 
   
 app.secret_key = 'zerone_girls'
@@ -107,12 +108,20 @@ def button():
         sql = ("SELECT * FROM Classroom where TeacherId = '%s' " % (username, ))
         output = dbconnect(sql)
         if(len(output)==0):
-            msg = Message('Hello', sender = 'zeronegirls@gmail.com', recipients = [output_mail[0]])
+            msg = Message('Feedback for the session [Student]', sender = 'zeronegirls@gmail.com', recipients = [output_mail[0]])
+            msg.body = "Thanks for attending the session on Introduction to Computer Programming \n"
+            msg.body = msg.body + "Teacher of the Class: Harini"+"\n"
+            msg.body = msg.body + "Course Id of the class attended: 12"+"\n"
             if(totalduration!=0):
                 percentage_sleep = (sleepcount+yawncount) / ( 2 * totalduration )
+                sql = ("UPDATE  Classdetails set percentage_sleep = %d  where UserId = '%s'" % (percentage_sleep,username,))
+                dbconnect(sql)
+                msg.body = msg.body + "Percentage of your attentiveness in the class : "+ str(1.00 - percentage_sleep)
             else :
                 percentage_sleep = 0
-            msg.body = "You were found to be sleeping for "+ str(percentage_sleep)
+                sql = ("UPDATE  Classdetails set percentage_sleep = %d  where UserId = '%s'" % (percentage_sleep,username,))
+                dbconnect(sql)
+                msg.body = msg.body + "U have joined and left the session very quickly."
             mail.send(msg)
         #########delete data for class only when the teacher is leaving################
         sql = ("SELECT * FROM Classroom C,Login L,Classdetails D WHERE C.TeacherId = '%s' and C.ClassroomId = D.ClassId and C.TeacherId=D.UserId " % (username, ))
@@ -124,6 +133,30 @@ def button():
             output = dbconnect(sql)
             output_class = output[0]
             print(int(output_class[0]))
+            ######Send messages to the teacher by finding email id
+            sql = ("SELECT emailid from Login where UserId = '%s'" %(username,))
+            output = dbconnect(sql)
+            output_mail = output[0]
+            msg = Message('Feedback for the session [Instructor]', sender = 'zeronegirls@gmail.com', recipients = [output_mail[0]])
+            ##############find the total people attending the session############
+            sql = ("SELECT COUNT(UserId) FROM Classdetails WHERE ClassId = '%s' " % (int(output_class[0]), ))
+            output = dbconnect(sql)
+            output_strength = output[0]
+            msg.body = "Thanks for attending the session on Introduction to Computer Programming. \n"
+            msg.body = msg.body + "Number of Students attended the Class is: "+ str(output_strength[0])+".\n"
+            msg.body = msg.body + "Course Id of the class conducted: "+str(output_class[0])+" \n"
+            sql = ("SELECT AVG(percentage_sleep) FROM Classdetails WHERE ClassId = '%s' " % (int(output_class[0]), ))
+            output = dbconnect(sql)
+            output_percent = output[0]
+            ################Average of the people attending####################
+            if(math.ceil(output_percent[0])!=0):
+                msg.body = msg.body + "Average attentiveness of the students who attended the session today: "+str(output_percent[0])+"."
+            else :
+                percentage_sleep = 0
+                msg.body = msg.body + "Attentiveness of the students for this class is vey poor. "
+            mail.send(msg)
+            print("Mail sent")
+            ####Delete the details of the class
             sql = ("DELETE FROM Classdetails where ClassId= %d" % (int(output_class[0]), ))
             dbconnect(sql)
         return render_template('login.html')
